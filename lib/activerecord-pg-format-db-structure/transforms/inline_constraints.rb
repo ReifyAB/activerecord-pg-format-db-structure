@@ -64,7 +64,7 @@ module ActiveRecordPgFormatDbStructure
 
       def add_constraint!(raw_statement, constraint)
         raw_statement.stmt.create_stmt.table_elts << PgQuery::Node.from(
-          PgQuery::Constraint.new(constraint)
+          PgQuery::Constraint.new(constraint.merge(skip_validation: nil))
         )
       end
     end

@@ -97,5 +97,34 @@ RSpec.describe ActiveRecordPgFormatDbStructure::Transforms::InlineConstraints do
         ;
       SQL
     end
+
+    it "removes NO VALID when inlining since that's a no-op when inlined" do
+      formatter = ActiveRecordPgFormatDbStructure::Formatter.new(
+        transforms: [described_class]
+      )
+
+      source = +<<~SQL
+        CREATE TABLE public.posts (
+            id bigint NOT NULL,
+            score int NOT NULL,
+            created_at timestamp(6) without time zone NOT NULL,
+            updated_at timestamp(6) without time zone NOT NULL
+        );
+
+        ALTER TABLE ONLY public.posts ADD CONSTRAINT postive_score CHECK (score > 0) NOT VALID;
+      SQL
+
+      expect(formatter.format(source)).to eq(<<~SQL)
+        -- Name: posts; Type: TABLE;
+
+        CREATE TABLE public.posts (
+            id bigint NOT NULL,
+            score int NOT NULL,
+            created_at timestamp(6) NOT NULL,
+            updated_at timestamp(6) NOT NULL,
+            CONSTRAINT postive_score CHECK (score > 0)
+        );
+      SQL
+    end
   end
 end
