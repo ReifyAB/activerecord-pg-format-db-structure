@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 
@@ -119,6 +119,8 @@ Lint/UnexpectedBlockArity: # new in 1.5
   Enabled: true
 Lint/UnmodifiedReduceAccumulator: # new in 1.1
   Enabled: true
+Lint/UselessConstantScoping:
+  Enabled: false
 Lint/UselessDefined: # new in 1.69
   Enabled: true
 Lint/UselessNumericOperation: # new in 1.66
