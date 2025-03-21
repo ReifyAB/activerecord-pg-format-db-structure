@@ -347,7 +347,9 @@ sequence indeed has default settings.
 
 ### InlineConstraints
 
-Inline non-foreign key constraints into table declaration
+Inline non-foreign key constraints into table declaration.
+
+Note that this also remove the `NOT VALID` setting if present, since that's a no-op when the constraint is created at the same time as the table.
 
 ### MoveIndicesAfterCreateTable
 
