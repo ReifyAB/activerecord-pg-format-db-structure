@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.4.0] - 2025-03-21
+
 - Remove no-op `NOT VALID` setting when inlining constraints
 
 ## [0.3.0] - 2025-03-15
