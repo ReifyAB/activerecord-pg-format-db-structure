@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.5.0] - 2025-08-04
+
 - Upgrade pg_query to 6.1 to add support for latest mac OS version
 
 ## [0.4.0] - 2025-03-21
