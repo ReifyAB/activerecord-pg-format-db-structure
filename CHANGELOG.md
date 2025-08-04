@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Upgrade pg_query to 6.1 to add support for latest mac OS version
+
 ## [0.4.0] - 2025-03-21
 
 - Remove no-op `NOT VALID` setting when inlining constraints
