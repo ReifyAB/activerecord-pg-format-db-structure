@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+- Add preprocessors config that allows applying text transforms to the input before parsing
+- Add preprocessor to remove `\restrict` and `\unrestrict` pragmas that appeared in newer versions of pg_dump
+
 ## [0.5.0] - 2025-08-04
 
 - Upgrade pg_query to 6.1 to add support for latest mac OS version
