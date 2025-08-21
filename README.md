@@ -9,6 +9,7 @@ Say good-bye to those pesky diffs you get between coworkers!
 
 By default, it will:
 
+* remove `\restrict` and `\unrestrict` pragmas
 * Inline primary key declarations
 * Inline SERIAL type declarations
 * Inline table constraints
@@ -27,6 +28,8 @@ As an example, the task will transform this raw `structure.sql`:
 <summary>Click to expand</summary>
 
 ```sql
+\restrict 1234
+
 --
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
@@ -261,6 +264,10 @@ If you want to configure which transforms to use, you can configure the library 
 
 ```ruby
 Rails.application.configure do
+  config.activerecord_pg_format_db_structure.preprocessors = [
+    Preprocessors::RemoveRestrictPragmas
+  ]
+
   config.activerecord_pg_format_db_structure.transforms = [
     ActiveRecordPgFormatDbStructure::Transforms::RemoveCommentsOnExtensions,
     ActiveRecordPgFormatDbStructure::Transforms::RemoveDefaultsSetCommands,
@@ -271,7 +278,7 @@ Rails.application.configure do
     ActiveRecordPgFormatDbStructure::Transforms::InlineConstraints,
     ActiveRecordPgFormatDbStructure::Transforms::MoveIndicesAfterCreateTable,
     ActiveRecordPgFormatDbStructure::Transforms::GroupAlterTableStatements,
-    ActiveRecordPgFormatDbStructure::Transforms::SortTableColumns,
+    ActiveRecordPgFormatDbStructure::Transforms::SortTableColumns
   ]
 
   config.activerecord_pg_format_db_structure.deparser = ActiveRecordPgFormatDbStructure::Deparser
@@ -287,6 +294,13 @@ structure = File.read("db/structure.sql")
 formatted = ActiveRecordPgFormatDbStructure::Formatter.new.format(structure)
 File.write("db/structure.sql", formatted)
 ```
+## Preprocessors
+
+### RemoveRestrictPragmas
+
+Remove `\restrict` and `\unrestrict` pragmas that were added in newer
+versions of `pg_dump`, since they are not valid SQL syntax and
+therefore prevent parsing the file as SQL.
 
 ## Transformers
 

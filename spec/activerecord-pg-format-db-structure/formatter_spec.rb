@@ -229,5 +229,39 @@ RSpec.describe ActiveRecordPgFormatDbStructure::Formatter do
         ;
       SQL
     end
+
+    it "handles pg_dump's \restrict commands" do
+      formatter = described_class.new
+
+      source = +<<~SQL
+        \\restrict 1234
+
+        --
+        -- Name: comments; Type: TABLE; Schema: public; Owner: -
+        --
+
+        CREATE TABLE public.comments (
+            id bigserial PRIMARY KEY,
+            user_id bigint NOT NULL,
+            post_id bigint NOT NULL,
+            created_at timestamp(6) without time zone NOT NULL,
+            updated_at timestamp(6) without time zone NOT NULL
+        );
+
+        \\unrestrict 1234
+      SQL
+
+      expect(formatter.format(source)).to eq(<<~SQL)
+        -- Name: comments; Type: TABLE;
+
+        CREATE TABLE public.comments (
+            id bigserial PRIMARY KEY,
+            post_id bigint NOT NULL,
+            user_id bigint NOT NULL,
+            created_at timestamp(6) NOT NULL,
+            updated_at timestamp(6) NOT NULL
+        );
+      SQL
+    end
   end
 end

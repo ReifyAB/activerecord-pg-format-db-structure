@@ -6,19 +6,25 @@ require_relative "../activerecord-pg-format-db-structure"
 module ActiveRecordPgFormatDbStructure
   # Formats & normalizes in place the given SQL string
   class Formatter
-    attr_reader :transforms, :deparser, :statement_appender
+    attr_reader :preprocessors, :transforms, :deparser, :statement_appender
 
     def initialize(
+      preprocessors: DEFAULT_PREPROCESSORS,
       transforms: DEFAULT_TRANSFORMS,
       deparser: DEFAULT_DEPARSER,
       statement_appender: DEFAULT_STATEMENT_APPENDER
     )
+      @preprocessors = preprocessors
       @transforms = transforms
       @deparser = deparser
       @statement_appender = statement_appender
     end
 
     def format(source)
+      preprocessors.each do |preprocessor|
+        preprocessor.new(source).preprocess!
+      end
+
       raw_statements = PgQuery.parse(source).tree.stmts
 
       transforms.each do |transform|
