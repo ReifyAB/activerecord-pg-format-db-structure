@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.6.0] - 2025-08-21
+
 - Add preprocessors config that allows applying text transforms to the input before parsing
 - Add preprocessor to remove `\restrict` and `\unrestrict` pragmas that appeared in newer versions of pg_dump
 
