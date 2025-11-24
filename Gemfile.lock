@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord-pg-format-db-structure (0.6.0)
+    activerecord-pg-format-db-structure (0.6.1)
       pg_query (~> 6.1)
 
 GEM

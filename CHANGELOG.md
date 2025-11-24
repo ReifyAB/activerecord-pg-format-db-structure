@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.6.1] - 2025-11-24
+
 - Fix bug with aggregate filter where clause
 
 ## [0.6.0] - 2025-08-21
