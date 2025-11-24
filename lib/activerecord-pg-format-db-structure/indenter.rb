@@ -125,6 +125,8 @@ module ActiveRecordPgFormatDbStructure
           output.append_token
           output.pop_scope
           output.append_scope(type:, indent: 0)
+        in { current_token: WHERE, inside: PARENS }
+          output.append_token
         in {
           current_token: FROM | WHERE | GROUP | ORDER | WINDOW | HAVING | LIMIT | OFFSET | FETCH | FOR | UNION |
             INTERSECT | EXCEPT => token_type

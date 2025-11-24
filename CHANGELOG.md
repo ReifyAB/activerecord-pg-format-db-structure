@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Fix bug with aggregate filter where clause
+
 ## [0.6.0] - 2025-08-21
 
 - Add preprocessors config that allows applying text transforms to the input before parsing
