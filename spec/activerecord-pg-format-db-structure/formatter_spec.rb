@@ -263,5 +263,21 @@ RSpec.describe ActiveRecordPgFormatDbStructure::Formatter do
         );
       SQL
     end
+
+    it "handles filter where clauses" do
+      formatter = described_class.new
+
+      source = +<<~SQL
+        select range_agg(my_range) filter (where true),
+               range_agg(my_range) filter (where false)
+        from my_table
+      SQL
+
+      expect(formatter.format(source)).to eq(<<~SQL)
+        SELECT range_agg(my_range) FILTER (WHERE true),
+               range_agg(my_range) FILTER (WHERE false)
+        FROM my_table;
+      SQL
+    end
   end
 end
